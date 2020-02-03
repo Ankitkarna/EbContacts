@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="15508" systemVersion="19B88" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="BaxtaAppUser" representedClassName=".BaxtaAppUser" syncable="YES">
+        <attribute name="fullName" optional="YES" attributeType="String"/>
+        <attribute name="profilePhoto" optional="YES" attributeType="String"/>
+        <attribute name="userId" optional="YES" attributeType="String"/>
+        <attribute name="userName" optional="YES" attributeType="String"/>
+        <relationship name="phoneContact" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BaxtaPhoneNumber" inverseName="user" inverseEntity="BaxtaPhoneNumber"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="userId"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="BaxtaContact" representedClassName=".BaxtaContact" syncable="YES">
+        <attribute name="contactId" attributeType="String"/>
+        <attribute name="fullName" optional="YES" attributeType="String"/>
+        <attribute name="profilePhoto" optional="YES" attributeType="String"/>
+        <attribute name="profilePhotoData" optional="YES" attributeType="Binary"/>
+        <attribute name="state" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="userName" optional="YES" attributeType="String"/>
+        <relationship name="emails" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BaxtaEmail" inverseName="contact" inverseEntity="BaxtaEmail"/>
+        <relationship name="phoneNumbers" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BaxtaPhoneNumber" inverseName="contact" inverseEntity="BaxtaPhoneNumber"/>
+    </entity>
+    <entity name="BaxtaEmail" representedClassName=".BaxtaEmail" syncable="YES">
+        <attribute name="emailAddress" optional="YES" attributeType="String"/>
+        <relationship name="contact" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BaxtaContact" inverseName="emails" inverseEntity="BaxtaContact"/>
+    </entity>
+    <entity name="BaxtaPhoneNumber" representedClassName=".BaxtaPhoneNumber" syncable="YES">
+        <attribute name="countryCode" optional="YES" attributeType="String"/>
+        <attribute name="email" optional="YES" attributeType="String"/>
+        <attribute name="fbId" optional="YES" attributeType="String"/>
+        <attribute name="fullName" optional="YES" attributeType="String"/>
+        <attribute name="fullPhoneNumber" optional="YES" attributeType="String"/>
+        <attribute name="phoneNumber" optional="YES" attributeType="String"/>
+        <attribute name="serverId" optional="YES" attributeType="String"/>
+        <attribute name="type" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="contact" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BaxtaContact" inverseName="phoneNumbers" inverseEntity="BaxtaContact"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BaxtaAppUser" inverseName="phoneContact" inverseEntity="BaxtaAppUser"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="phoneNumber"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <elements>
+        <element name="BaxtaContact" positionX="-54" positionY="-9" width="128" height="163"/>
+        <element name="BaxtaEmail" positionX="-36" positionY="9" width="128" height="28"/>
+        <element name="BaxtaPhoneNumber" positionX="-18" positionY="27" width="128" height="193"/>
+        <element name="BaxtaAppUser" positionX="-36" positionY="81" width="128" height="118"/>
+    </elements>
+</model>
