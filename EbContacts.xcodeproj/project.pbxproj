@@ -7,21 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2D96994923E8281300FA0D88 /* Managed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D96994023E8281300FA0D88 /* Managed.swift */; };
+		2D96994A23E8281300FA0D88 /* NSManagedObjectContext+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D96994123E8281300FA0D88 /* NSManagedObjectContext+Extensions.swift */; };
+		2D96994B23E8281300FA0D88 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D96994223E8281300FA0D88 /* DatabaseManager.swift */; };
+		2D96994C23E8281300FA0D88 /* MockCoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D96994323E8281300FA0D88 /* MockCoreDataStack.swift */; };
+		2D96994D23E8281300FA0D88 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D96994423E8281300FA0D88 /* CoreDataStack.swift */; };
+		2D96994E23E8281300FA0D88 /* CallingCodes.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2D96994523E8281300FA0D88 /* CallingCodes.plist */; };
+		2D96994F23E8281300FA0D88 /* TableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D96994623E8281300FA0D88 /* TableViewDataSource.swift */; };
+		2D96995023E8281300FA0D88 /* BaxtaContactFramework.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2D96994723E8281300FA0D88 /* BaxtaContactFramework.xcdatamodeld */; };
 		2DF130CB23E81B0200EAB94C /* EbContacts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DF130C123E81B0100EAB94C /* EbContacts.framework */; };
 		2DF130D023E81B0200EAB94C /* EbContactsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DF130CF23E81B0200EAB94C /* EbContactsTests.swift */; };
 		2DF130D223E81B0200EAB94C /* EbContacts.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DF130C423E81B0100EAB94C /* EbContacts.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2DF130F423E81C0D00EAB94C /* EbContacts.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 2DF130DB23E81C0D00EAB94C /* EbContacts.podspec */; };
 		2DF130F523E81C0D00EAB94C /* SystemContactImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DF130DC23E81C0D00EAB94C /* SystemContactImporter.swift */; };
-		2DF130F623E81C0D00EAB94C /* NSManagedObjectContext+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DF130DE23E81C0D00EAB94C /* NSManagedObjectContext+Extensions.swift */; };
-		2DF130F723E81C0D00EAB94C /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DF130DF23E81C0D00EAB94C /* CoreDataStack.swift */; };
-		2DF130F823E81C0D00EAB94C /* TableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DF130E023E81C0D00EAB94C /* TableViewDataSource.swift */; };
-		2DF130F923E81C0D00EAB94C /* Managed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DF130E123E81C0D00EAB94C /* Managed.swift */; };
-		2DF130FA23E81C0D00EAB94C /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DF130E223E81C0D00EAB94C /* DatabaseManager.swift */; };
-		2DF130FB23E81C0D00EAB94C /* BaxtaContactFramework.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2DF130E323E81C0D00EAB94C /* BaxtaContactFramework.xcdatamodeld */; };
-		2DF130FC23E81C0D00EAB94C /* MockCoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DF130E523E81C0D00EAB94C /* MockCoreDataStack.swift */; };
 		2DF130FD23E81C0D00EAB94C /* BaxtaContact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DF130E623E81C0D00EAB94C /* BaxtaContact.swift */; };
-		2DF130FE23E81C0D00EAB94C /* CallingCodes.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2DF130E823E81C0D00EAB94C /* CallingCodes.plist */; };
-		2DF130FF23E81C0D00EAB94C /* BaxtaContactFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DF130E923E81C0D00EAB94C /* BaxtaContactFramework.h */; };
 		2DF1310023E81C0D00EAB94C /* BaxtaEmail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DF130EA23E81C0D00EAB94C /* BaxtaEmail.swift */; };
 		2DF1310123E81C0D00EAB94C /* CountryInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DF130EB23E81C0D00EAB94C /* CountryInfo.swift */; };
 		2DF1310223E81C0D00EAB94C /* ContactFetchOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DF130EC23E81C0D00EAB94C /* ContactFetchOperation.swift */; };
@@ -45,6 +44,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2D96994023E8281300FA0D88 /* Managed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Managed.swift; sourceTree = "<group>"; };
+		2D96994123E8281300FA0D88 /* NSManagedObjectContext+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSManagedObjectContext+Extensions.swift"; sourceTree = "<group>"; };
+		2D96994223E8281300FA0D88 /* DatabaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
+		2D96994323E8281300FA0D88 /* MockCoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockCoreDataStack.swift; sourceTree = "<group>"; };
+		2D96994423E8281300FA0D88 /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		2D96994523E8281300FA0D88 /* CallingCodes.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CallingCodes.plist; sourceTree = "<group>"; };
+		2D96994623E8281300FA0D88 /* TableViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewDataSource.swift; sourceTree = "<group>"; };
+		2D96994823E8281300FA0D88 /* BaxtaContactFramework.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BaxtaContactFramework.xcdatamodel; sourceTree = "<group>"; };
 		2DF130C123E81B0100EAB94C /* EbContacts.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EbContacts.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2DF130C423E81B0100EAB94C /* EbContacts.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EbContacts.h; sourceTree = "<group>"; };
 		2DF130C523E81B0100EAB94C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -53,16 +60,7 @@
 		2DF130D123E81B0200EAB94C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2DF130DB23E81C0D00EAB94C /* EbContacts.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = EbContacts.podspec; sourceTree = "<group>"; };
 		2DF130DC23E81C0D00EAB94C /* SystemContactImporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemContactImporter.swift; sourceTree = "<group>"; };
-		2DF130DE23E81C0D00EAB94C /* NSManagedObjectContext+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSManagedObjectContext+Extensions.swift"; sourceTree = "<group>"; };
-		2DF130DF23E81C0D00EAB94C /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
-		2DF130E023E81C0D00EAB94C /* TableViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewDataSource.swift; sourceTree = "<group>"; };
-		2DF130E123E81C0D00EAB94C /* Managed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Managed.swift; sourceTree = "<group>"; };
-		2DF130E223E81C0D00EAB94C /* DatabaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
-		2DF130E423E81C0D00EAB94C /* BaxtaContactFramework.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BaxtaContactFramework.xcdatamodel; sourceTree = "<group>"; };
-		2DF130E523E81C0D00EAB94C /* MockCoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockCoreDataStack.swift; sourceTree = "<group>"; };
 		2DF130E623E81C0D00EAB94C /* BaxtaContact.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaxtaContact.swift; sourceTree = "<group>"; };
-		2DF130E823E81C0D00EAB94C /* CallingCodes.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CallingCodes.plist; sourceTree = "<group>"; };
-		2DF130E923E81C0D00EAB94C /* BaxtaContactFramework.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaxtaContactFramework.h; sourceTree = "<group>"; };
 		2DF130EA23E81C0D00EAB94C /* BaxtaEmail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaxtaEmail.swift; sourceTree = "<group>"; };
 		2DF130EB23E81C0D00EAB94C /* CountryInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryInfo.swift; sourceTree = "<group>"; };
 		2DF130EC23E81C0D00EAB94C /* ContactFetchOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactFetchOperation.swift; sourceTree = "<group>"; };
@@ -115,6 +113,14 @@
 		2DF130C323E81B0100EAB94C /* EbContacts */ = {
 			isa = PBXGroup;
 			children = (
+				2D96994723E8281300FA0D88 /* BaxtaContactFramework.xcdatamodeld */,
+				2D96994523E8281300FA0D88 /* CallingCodes.plist */,
+				2D96994423E8281300FA0D88 /* CoreDataStack.swift */,
+				2D96994223E8281300FA0D88 /* DatabaseManager.swift */,
+				2D96994023E8281300FA0D88 /* Managed.swift */,
+				2D96994323E8281300FA0D88 /* MockCoreDataStack.swift */,
+				2D96994123E8281300FA0D88 /* NSManagedObjectContext+Extensions.swift */,
+				2D96994623E8281300FA0D88 /* TableViewDataSource.swift */,
 				2DF130F123E81C0D00EAB94C /* BaxtaAppUser.swift */,
 				2DF130E623E81C0D00EAB94C /* BaxtaContact.swift */,
 				2DF130DB23E81C0D00EAB94C /* EbContacts.podspec */,
@@ -123,11 +129,9 @@
 				2DF130ED23E81C0D00EAB94C /* BaxtaPhoneNumber.swift */,
 				2DF130EC23E81C0D00EAB94C /* ContactFetchOperation.swift */,
 				2DF130EF23E81C0D00EAB94C /* ContactManager.swift */,
-				2DF130DD23E81C0D00EAB94C /* CoreData */,
 				2DF130EB23E81C0D00EAB94C /* CountryInfo.swift */,
 				2DF130F223E81C0D00EAB94C /* Helper.swift */,
 				2DF130EE23E81C0D00EAB94C /* MockContactStore.swift */,
-				2DF130E723E81C0D00EAB94C /* Resource */,
 				2DF130F023E81C0D00EAB94C /* Reusables+extension.swift */,
 				2DF130DC23E81C0D00EAB94C /* SystemContactImporter.swift */,
 				2DF130C423E81B0100EAB94C /* EbContacts.h */,
@@ -145,29 +149,6 @@
 			path = EbContactsTests;
 			sourceTree = "<group>";
 		};
-		2DF130DD23E81C0D00EAB94C /* CoreData */ = {
-			isa = PBXGroup;
-			children = (
-				2DF130DE23E81C0D00EAB94C /* NSManagedObjectContext+Extensions.swift */,
-				2DF130DF23E81C0D00EAB94C /* CoreDataStack.swift */,
-				2DF130E023E81C0D00EAB94C /* TableViewDataSource.swift */,
-				2DF130E123E81C0D00EAB94C /* Managed.swift */,
-				2DF130E223E81C0D00EAB94C /* DatabaseManager.swift */,
-				2DF130E323E81C0D00EAB94C /* BaxtaContactFramework.xcdatamodeld */,
-				2DF130E523E81C0D00EAB94C /* MockCoreDataStack.swift */,
-			);
-			path = CoreData;
-			sourceTree = "<group>";
-		};
-		2DF130E723E81C0D00EAB94C /* Resource */ = {
-			isa = PBXGroup;
-			children = (
-				2DF130E823E81C0D00EAB94C /* CallingCodes.plist */,
-				2DF130E923E81C0D00EAB94C /* BaxtaContactFramework.h */,
-			);
-			path = Resource;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -176,7 +157,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				2DF130D223E81B0200EAB94C /* EbContacts.h in Headers */,
-				2DF130FF23E81C0D00EAB94C /* BaxtaContactFramework.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -262,7 +242,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2DF130FE23E81C0D00EAB94C /* CallingCodes.plist in Resources */,
+				2D96994E23E8281300FA0D88 /* CallingCodes.plist in Resources */,
 				2DF130F423E81C0D00EAB94C /* EbContacts.podspec in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -281,23 +261,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2DF130FB23E81C0D00EAB94C /* BaxtaContactFramework.xcdatamodeld in Sources */,
-				2DF130F723E81C0D00EAB94C /* CoreDataStack.swift in Sources */,
+				2D96994F23E8281300FA0D88 /* TableViewDataSource.swift in Sources */,
+				2D96994923E8281300FA0D88 /* Managed.swift in Sources */,
+				2D96994A23E8281300FA0D88 /* NSManagedObjectContext+Extensions.swift in Sources */,
+				2D96994B23E8281300FA0D88 /* DatabaseManager.swift in Sources */,
 				2DF1310623E81C0D00EAB94C /* Reusables+extension.swift in Sources */,
 				2DF1310123E81C0D00EAB94C /* CountryInfo.swift in Sources */,
+				2D96994C23E8281300FA0D88 /* MockCoreDataStack.swift in Sources */,
 				2DF130F523E81C0D00EAB94C /* SystemContactImporter.swift in Sources */,
+				2D96995023E8281300FA0D88 /* BaxtaContactFramework.xcdatamodeld in Sources */,
 				2DF1310823E81C0D00EAB94C /* Helper.swift in Sources */,
 				2DF1310023E81C0D00EAB94C /* BaxtaEmail.swift in Sources */,
-				2DF130FA23E81C0D00EAB94C /* DatabaseManager.swift in Sources */,
 				2DF1310423E81C0D00EAB94C /* MockContactStore.swift in Sources */,
-				2DF130F823E81C0D00EAB94C /* TableViewDataSource.swift in Sources */,
 				2DF1310323E81C0D00EAB94C /* BaxtaPhoneNumber.swift in Sources */,
-				2DF130FC23E81C0D00EAB94C /* MockCoreDataStack.swift in Sources */,
 				2DF1310523E81C0D00EAB94C /* ContactManager.swift in Sources */,
-				2DF130F623E81C0D00EAB94C /* NSManagedObjectContext+Extensions.swift in Sources */,
+				2D96994D23E8281300FA0D88 /* CoreDataStack.swift in Sources */,
 				2DF1310223E81C0D00EAB94C /* ContactFetchOperation.swift in Sources */,
 				2DF1310723E81C0D00EAB94C /* BaxtaAppUser.swift in Sources */,
-				2DF130F923E81C0D00EAB94C /* Managed.swift in Sources */,
 				2DF1310923E81C0D00EAB94C /* BaxtaOperation.swift in Sources */,
 				2DF130FD23E81C0D00EAB94C /* BaxtaContact.swift in Sources */,
 			);
@@ -564,12 +544,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		2DF130E323E81C0D00EAB94C /* BaxtaContactFramework.xcdatamodeld */ = {
+		2D96994723E8281300FA0D88 /* BaxtaContactFramework.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				2DF130E423E81C0D00EAB94C /* BaxtaContactFramework.xcdatamodel */,
+				2D96994823E8281300FA0D88 /* BaxtaContactFramework.xcdatamodel */,
 			);
-			currentVersion = 2DF130E423E81C0D00EAB94C /* BaxtaContactFramework.xcdatamodel */;
+			currentVersion = 2D96994823E8281300FA0D88 /* BaxtaContactFramework.xcdatamodel */;
 			path = BaxtaContactFramework.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
