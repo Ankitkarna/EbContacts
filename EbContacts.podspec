@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name                = "EbContacts"
-  s.version             = "0.0.1"
+  s.version             = "0.0.2"
   s.summary             = "Contact Importer"
   s.description         = "Get all contacts from devices efficiently"
   s.homepage            = "http://ebpearls.com"
