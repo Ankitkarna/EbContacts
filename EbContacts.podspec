@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
   s.license             = "Ebpearls"
   s.author              = "Ankit Karna"
   s.platform            = :ios, "11.0"
-  s.source              = { :git => "https://github.com/Ankitkarna/EbContacts.git", :tag => "#{s.version}" }
+  s.source       = { :path => '.' }
   s.source_files        = "EbContacts"
   s.swift_version       = "5.0"
   s.resources           = "EbContacts/BaxtaContactFramework.xcdatamodeld", "EbContacts/CallingCodes.plist"

@@ -44,6 +44,7 @@ public class SystemContactImporter: NSObject {
         CNContactViewController.descriptorForRequiredKeys()
     ]
     
+    var deleteRemovedContacts: Bool = false
     var authorizationStatus: CNAuthorizationStatus { contactStore.status }
     
     public init(contactStore: ContactStore = CNContactStore(),
@@ -77,6 +78,40 @@ public class SystemContactImporter: NSObject {
         return dbContacts
     }
     
+    func deleteSystemContactsFromDb(excluding contactIds: [String]) {
+        let operation: () -> Void = {
+            if self.deleteRemovedContacts {
+                self.deleteDBContacts(excluding: contactIds, type: .phoneBook)
+            } else {
+                self.setFlagsForDeletedDbContacts(excluding: contactIds)
+            }
+        }
+        context.performChangesAndWait(block: operation)
+    }
+    
+    private func fetchSystemContacts() -> [CNContact] {
+        var systemContacts = [CNContact]()
+        let contactFetchRequest = CNContactFetchRequest(keysToFetch: self.allowedContactKeys)
+        contactFetchRequest.sortOrder = .userDefault
+        try? self.contactStore.enumerateContacts(with: contactFetchRequest) { (contact, _) -> Void in
+            systemContacts.append(contact)
+        }
+       
+        return systemContacts
+    }
+    
+    private func requestAccessAndFetchContacts(completion: @escaping ContactFetchCompletionHandler) {
+        self.contactStore.requestAccess(for: .contacts) { [weak self] (isGranted, error) in
+            guard let self = self else { return }
+            if isGranted {
+                let contacts = self.fetchSystemContacts()
+                completion(.success(contacts))
+            } else if let error = error {
+                completion(.failure(error))
+            }
+        }
+    }
+    
     private func performInsertionToDB(contacts: [CNContact], in context: NSManagedObjectContext) -> [BaxtaContact] {
         let contactIds = contacts.map { $0.identifier }
         let predicate = NSPredicate(format: "(%K in %@)",
@@ -93,11 +128,6 @@ public class SystemContactImporter: NSObject {
         } else {
            return handleOldContacts(contacts, existingDbContacts: existingDbContacts)
         }
-    }
-    
-    private func updateExistingDbContacts(contactIds: [String]) {
-        let predicate = NSPredicate(format: "%K in %@", #keyPath(BaxtaContact.contactId), contactIds)
-        dbManager.updateObjects(type: BaxtaContact.self, predicate: predicate, propertiesToUpdate: [#keyPath(BaxtaContact.state): DBContactState.existing.rawValue])
     }
     
     private func handleOldContacts(_ contacts: [CNContact], existingDbContacts: [BaxtaContact]) -> [BaxtaContact] {
@@ -122,11 +152,24 @@ public class SystemContactImporter: NSObject {
             }
         }
         
-        updateExistingDbContacts(contactIds: existingContactIds)
+        setFlagsForExistingDbContacts(contactIds: existingContactIds)
         return newDbContacts + existingDbContacts
     }
+}
+
+extension SystemContactImporter {
+    private func setFlagsForExistingDbContacts(contactIds: [String]) {
+        let predicate = NSPredicate(format: "%K in %@", #keyPath(BaxtaContact.contactId), contactIds)
+        dbManager.updateObjects(type: BaxtaContact.self, predicate: predicate, propertiesToUpdate: [#keyPath(BaxtaContact.state): DBContactState.existing.rawValue], context: context)
+    }
     
-    func deleteDBContacts(except contactIds: [String], type: AppContactType) {
+    private func setFlagsForDeletedDbContacts(excluding contactIds: [String]) {
+        guard !contactIds.isEmpty else { return }
+        let predicate = NSPredicate(format: "not %K in %@", #keyPath(BaxtaContact.contactId), contactIds)
+        dbManager.updateObjects(type: BaxtaContact.self, predicate: predicate, propertiesToUpdate: [#keyPath(BaxtaContact.state): DBContactState.deletedOrNotAvailable.rawValue], context: context)
+    }
+    
+    private func deleteDBContacts(excluding contactIds: [String], type: AppContactType) {
         let predicate: NSPredicate
         if !contactIds.isEmpty {
             predicate = NSPredicate(format: "not (%K in %@) and (any %K == %d)",
@@ -134,32 +177,6 @@ public class SystemContactImporter: NSObject {
         } else {
             predicate = NSPredicate(format: "%K == %d", #keyPath(BaxtaContact.phoneNumbers.type), type.rawValue)
         }
-        let context = dbManager.dataStack.savingContext
-        context.performChangesAndWait {
-            self.dbManager.deleteObjects(type: BaxtaContact.self, predicate: predicate, context: context)
-        }
-    }
-    
-    private func fetchSystemContacts() -> [CNContact] {
-        var systemContacts = [CNContact]()
-        let contactFetchRequest = CNContactFetchRequest(keysToFetch: self.allowedContactKeys)
-        contactFetchRequest.sortOrder = .userDefault
-        try? self.contactStore.enumerateContacts(with: contactFetchRequest) { (contact, _) -> Void in
-            systemContacts.append(contact)
-        }
-       
-        return systemContacts
-    }
-    
-    private func requestAccessAndFetchContacts(completion: @escaping ContactFetchCompletionHandler) {
-        self.contactStore.requestAccess(for: .contacts) { [weak self] (isGranted, error) in
-            guard let self = self else { return }
-            if isGranted {
-                let contacts = self.fetchSystemContacts()
-                completion(.success(contacts))
-            } else if let error = error {
-                completion(.failure(error))
-            }
-        }
+        dbManager.deleteObjects(type: BaxtaContact.self, predicate: predicate, context: context)
     }
 }

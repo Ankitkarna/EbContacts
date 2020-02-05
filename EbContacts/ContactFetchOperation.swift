@@ -31,7 +31,7 @@ class ContactFetchOperation: OperationQueueable {
     
     private func updateSystemContactsToDB(systemContacts: [CNContact]) {
         let systemContactIds = systemContacts.map { $0.identifier }
-        contactImporter.deleteDBContacts(except: systemContactIds, type: .phoneBook)
+        contactImporter.deleteSystemContactsFromDb(excluding: systemContactIds)
         contactImporter.insertSystemContactsToDB(systemContacts: systemContacts)
     }
     

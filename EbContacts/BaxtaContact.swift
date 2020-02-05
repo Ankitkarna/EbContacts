@@ -21,27 +21,14 @@ public enum DBContactState: Int32 {
 
 final public class BaxtaContact: NSManagedObject {
     @NSManaged public var contactId: String
-    @NSManaged public var userName: String?
     @NSManaged public var fullName: String
-    @NSManaged private var profilePhoto: String?
     @NSManaged public var profilePhotoData: Data?
-    
     @NSManaged private(set) public var state: Int32
+    
+    @NSManaged public var isSyncedWithApi: Bool
 
     @NSManaged public var phoneNumbers: Set<BaxtaPhoneNumber>
     @NSManaged public var emails: Set<BaxtaEmail>
-
-    public var profilePhotoURL: URL? {
-        get {
-            if let profilePhoto = profilePhoto {
-                return URL(string: profilePhoto)
-            }
-            return nil
-        }
-        set {
-            profilePhoto = newValue?.absoluteString
-        }
-    }
     
     public var contactState: DBContactState {
         get {
@@ -87,11 +74,7 @@ final public class BaxtaContact: NSManagedObject {
         }
         
         if systemContact.isKeyAvailable(CNContactPhoneNumbersKey) {
-            if state == .inserted {
-                phoneNumbers = BaxtaPhoneNumber.insertPhoneNumbers(dbContact: self, systemPhoneNumbers: systemContact.phoneNumbers)
-            } else {
-                phoneNumbers = BaxtaPhoneNumber.getDbPhoneNumbers(dbContact: self, systemPhoneNumbers: systemContact.phoneNumbers)
-            }
+            phoneNumbers = BaxtaPhoneNumber.getDbPhoneNumbers(dbContact: self, systemPhoneNumbers: systemContact.phoneNumbers)
         }
         
         if systemContact.isKeyAvailable(CNContactEmailAddressesKey) {

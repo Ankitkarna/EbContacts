@@ -50,12 +50,11 @@ final public class BaxtaPhoneNumber: NSManagedObject {
     static func getDbPhoneNumbers(dbContact: BaxtaContact, systemPhoneNumbers: [CNLabeledValue<CNPhoneNumber>]) -> Set<BaxtaPhoneNumber> {
         let phoneValues = systemPhoneNumbers.map { $0.value.stringValue }
         let phonePredicate = NSPredicate(format: "%K in %@", #keyPath(BaxtaPhoneNumber.fullPhoneNumber), phoneValues)
-        let contactPredicate = NSPredicate(format: "%K == %@", #keyPath(BaxtaPhoneNumber.contact.contactId), dbContact.contactId)
         
         let context = dbContact.managedObjectContext!
         
         let unchangedContacts = BaxtaPhoneNumber.fetch(in: context) { (request) in
-            request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [phonePredicate, contactPredicate])
+            request.predicate = phonePredicate
         }
         
         let unchangedContactsPhoneValues = unchangedContacts.map { $0.fullPhoneNumber }

@@ -13,9 +13,14 @@ open class ContactManager: NSObject {
     
     public let contactImporter: SystemContactImporter
     private let queue = OperationQueue()
+    ///whether to allow framework to automatically delete removed system contacts or just set deleted flag on removed contacts
+    public var deleteRemovedContacts = false
+    
+    public var onSystemContactChange: (() -> Void)?
     
     public init(contactImporter: SystemContactImporter = SystemContactImporter()) {
         self.contactImporter = contactImporter
+        contactImporter.deleteRemovedContacts = deleteRemovedContacts
         super.init()
         observeNotifications()
     }
@@ -29,11 +34,7 @@ open class ContactManager: NSObject {
     }
     
     @objc private func handleContactsChanged() {
-        fetchSystemContactsAndInsertToDB { (error) in
-            if let error = error {
-                print(error)
-            }
-        }
+        onSystemContactChange?()
     }
     
     public func fetchSystemContactsAndInsertToDB(completion: @escaping (Error?) -> Void) {

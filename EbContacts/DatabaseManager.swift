@@ -35,26 +35,41 @@ final public class DatabaseManager {
         }
     }
     
-    public func updateObjects<T: Managed>(type: T.Type, predicate: NSPredicate? = nil, propertiesToUpdate: [AnyHashable: Any]) {
-        let context = dataStack.savingContext
+    public func getObjectCount<T: Managed>(type: T.Type, predicate: NSPredicate? = nil, in context: NSManagedObjectContext? = nil) -> Int {
+        let request: NSFetchRequest<T> = NSFetchRequest<T>(entityName: T.entityName)
+        if let predicate = predicate {
+            request.predicate = predicate
+        }
+       
+        let dbContext = context ?? dataStack.viewContext
+        if let objectCount = try? dbContext.count(for: request) {
+            return objectCount
+        } else {
+            return 0
+        }
+    }
+    
+    public func updateObjects<T: Managed>(type: T.Type, predicate: NSPredicate? = nil, propertiesToUpdate: [AnyHashable: Any], context: NSManagedObjectContext?) {
+        let managedContext = context ?? dataStack.savingContext
         let request = NSBatchUpdateRequest(entityName: T.entityName)
         request.predicate = predicate
         request.propertiesToUpdate = propertiesToUpdate
         request.resultType = NSBatchUpdateRequestResultType.updatedObjectIDsResultType
-        guard let result = try? context.execute(request) as? NSBatchUpdateResult,
+        guard let result = try? managedContext.execute(request) as? NSBatchUpdateResult,
             let objectIDArray = result.result as? [NSManagedObjectID] else { return }
         let changes = [NSUpdatedObjectsKey: objectIDArray]
-        NSManagedObjectContext.mergeChanges(fromRemoteContextSave: changes as [AnyHashable: Any], into: [dataStack.savingContext])
+        NSManagedObjectContext.mergeChanges(fromRemoteContextSave: changes as [AnyHashable: Any], into: [dataStack.viewContext, dataStack.savingContext])
     }
     
-    public func deleteObjects<T: Managed>(type: T.Type, predicate: NSPredicate? = nil, context: NSManagedObjectContext) {
+    public func deleteObjects<T: Managed>(type: T.Type, predicate: NSPredicate? = nil, context: NSManagedObjectContext?) {
+        let managedContext = context ?? dataStack.savingContext
         let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: T.entityName)
         fetchRequest.predicate = predicate
         let request = NSBatchDeleteRequest(fetchRequest: fetchRequest)
         request.resultType = NSBatchDeleteRequestResultType.resultTypeObjectIDs
-        guard let result = try? context.execute(request) as? NSBatchDeleteResult,
+        guard let result = try? managedContext.execute(request) as? NSBatchDeleteResult,
             let objectIDArray = result.result as? [NSManagedObjectID] else { return }
         let changes = [NSDeletedObjectsKey: objectIDArray]
-        NSManagedObjectContext.mergeChanges(fromRemoteContextSave: changes as [AnyHashable: Any], into: [dataStack.savingContext])
+        NSManagedObjectContext.mergeChanges(fromRemoteContextSave: changes as [AnyHashable: Any], into: [managedContext])
     }
 }
