@@ -74,7 +74,11 @@ final public class BaxtaContact: NSManagedObject {
         }
         
         if systemContact.isKeyAvailable(CNContactPhoneNumbersKey) {
-            phoneNumbers = BaxtaPhoneNumber.getDbPhoneNumbers(dbContact: self, systemPhoneNumbers: systemContact.phoneNumbers)
+            if state == .inserted {
+                phoneNumbers = BaxtaPhoneNumber.insertPhoneNumbers(dbContact: self, systemPhoneNumbers: systemContact.phoneNumbers)
+            } else {
+                phoneNumbers = BaxtaPhoneNumber.getDbPhoneNumbers(dbContact: self, systemPhoneNumbers: systemContact.phoneNumbers)
+            }
         }
         
         if systemContact.isKeyAvailable(CNContactEmailAddressesKey) {

@@ -58,7 +58,7 @@ final public class DatabaseManager {
         guard let result = try? managedContext.execute(request) as? NSBatchUpdateResult,
             let objectIDArray = result.result as? [NSManagedObjectID] else { return }
         let changes = [NSUpdatedObjectsKey: objectIDArray]
-        NSManagedObjectContext.mergeChanges(fromRemoteContextSave: changes as [AnyHashable: Any], into: [dataStack.viewContext, dataStack.savingContext])
+        NSManagedObjectContext.mergeChanges(fromRemoteContextSave: changes as [AnyHashable: Any], into: [managedContext])
     }
     
     public func deleteObjects<T: Managed>(type: T.Type, predicate: NSPredicate? = nil, context: NSManagedObjectContext?) {
