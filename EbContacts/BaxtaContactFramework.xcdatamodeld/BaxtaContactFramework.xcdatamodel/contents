@@ -6,11 +6,6 @@
         <attribute name="userId" optional="YES" attributeType="String"/>
         <attribute name="userName" optional="YES" attributeType="String"/>
         <relationship name="phoneContact" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BaxtaPhoneNumber" inverseName="user" inverseEntity="BaxtaPhoneNumber"/>
-        <uniquenessConstraints>
-            <uniquenessConstraint>
-                <constraint value="userId"/>
-            </uniquenessConstraint>
-        </uniquenessConstraints>
     </entity>
     <entity name="BaxtaContact" representedClassName=".BaxtaContact" syncable="YES">
         <attribute name="contactId" attributeType="String"/>
@@ -31,8 +26,10 @@
         <attribute name="fbId" optional="YES" attributeType="String"/>
         <attribute name="fullName" optional="YES" attributeType="String"/>
         <attribute name="fullPhoneNumber" optional="YES" attributeType="String"/>
+        <attribute name="phoneId" optional="YES" attributeType="String"/>
         <attribute name="phoneNumber" optional="YES" attributeType="String"/>
         <attribute name="serverId" optional="YES" attributeType="String"/>
+        <attribute name="state" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="type" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="contact" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BaxtaContact" inverseName="phoneNumbers" inverseEntity="BaxtaContact"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="BaxtaAppUser" inverseName="phoneContact" inverseEntity="BaxtaAppUser"/>
@@ -46,6 +43,6 @@
         <element name="BaxtaAppUser" positionX="-36" positionY="81" width="128" height="118"/>
         <element name="BaxtaContact" positionX="-54" positionY="-9" width="128" height="148"/>
         <element name="BaxtaEmail" positionX="-36" positionY="9" width="128" height="28"/>
-        <element name="BaxtaPhoneNumber" positionX="-18" positionY="27" width="128" height="193"/>
+        <element name="BaxtaPhoneNumber" positionX="-18" positionY="27" width="128" height="223"/>
     </elements>
 </model>

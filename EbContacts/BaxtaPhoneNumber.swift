@@ -20,6 +20,8 @@ final public class BaxtaPhoneNumber: NSManagedObject {
     @NSManaged public var user: BaxtaAppUser?
     @NSManaged public var serverId: String?
     
+    @NSManaged public var phoneId: String?
+    
     ///only used to sort by name
     @NSManaged public var fullName: String?
     
@@ -38,6 +40,16 @@ final public class BaxtaPhoneNumber: NSManagedObject {
         }
     }
     
+    @NSManaged private(set) public var state: Int32
+    public var phoneState: DBContactState {
+        get {
+            return DBContactState(rawValue: state) ?? .deletedOrNotAvailable
+        }
+        set {
+            state = newValue.rawValue
+        }
+    }
+    
     private static var defaultCountryCode: String = getDefaultCountryCode()
     
     static func isDbPhoneNumbersEqualToSystemPhoneNumbers(dbPhoneNumbers: Set<BaxtaPhoneNumber>, systemPhoneNumbers: [CNLabeledValue<CNPhoneNumber>]) -> Bool {
@@ -48,35 +60,50 @@ final public class BaxtaPhoneNumber: NSManagedObject {
     }
     
     static func getDbPhoneNumbers(dbContact: BaxtaContact, systemPhoneNumbers: [CNLabeledValue<CNPhoneNumber>]) -> Set<BaxtaPhoneNumber> {
-        let phoneValues = systemPhoneNumbers.map { $0.value.stringValue }
-        let phonePredicate = NSPredicate(format: "%K in %@", #keyPath(BaxtaPhoneNumber.fullPhoneNumber), phoneValues)
+        let phoneIdentifiers = systemPhoneNumbers.map { $0.identifier }
+        let phonePredicate = NSPredicate(format: "%K in %@", #keyPath(BaxtaPhoneNumber.phoneId), phoneIdentifiers)
+        let contactPredicate = NSPredicate(format: "%K == %@", #keyPath(BaxtaPhoneNumber.contact.contactId), dbContact.contactId)
         
         let context = dbContact.managedObjectContext!
         
-        let unchangedContacts = BaxtaPhoneNumber.fetch(in: context) { (request) in
+        let totalPhoneContacts = BaxtaPhoneNumber.fetch(in: context) { (request) in
+            request.predicate = contactPredicate
+        }
+        
+        let existingContacts = BaxtaPhoneNumber.fetch(in: context) { (request) in
             request.predicate = phonePredicate
+            request.sortDescriptors = [NSSortDescriptor(keyPath: \BaxtaPhoneNumber.phoneId, ascending: true)]
+        }
+        let existingContactIds = existingContacts.compactMap { $0.phoneId }
+        var existingContactPhones = systemPhoneNumbers.filter { existingContactIds.contains($0.identifier) }
+        existingContactPhones.sort(by: { $0.identifier < $1.identifier })
+        for (contact, systemContact) in zip(existingContacts, existingContactPhones) {
+            precondition(contact.phoneId == systemContact.identifier)
+            if contact.fullPhoneNumber == systemContact.value.stringValue {
+                contact.phoneState = .existing
+            } else {
+                contact.phoneState = .updated
+                contact.insertOrUpdate(contact: contact.contact!, systemPhoneNumber: systemContact)
+            }
         }
         
-        let unchangedContactsPhoneValues = unchangedContacts.map { $0.fullPhoneNumber }
-        let changedContactsPhoneValues = Array(Set(phoneValues).subtracting(Set(unchangedContactsPhoneValues)))
-    
-        //delete all the changed contacts at last
-        defer {
-            let dbManager = DatabaseManager(dataStack: CoreDataStack.shared)
-            let predicate = NSPredicate(format: "%K == %@ and not (%K in %@)", #keyPath(BaxtaPhoneNumber.contact.contactId), dbContact.contactId, #keyPath(BaxtaPhoneNumber.fullPhoneNumber), unchangedContactsPhoneValues)
-            dbManager.deleteObjects(type: BaxtaPhoneNumber.self, predicate: predicate, context: context)
-        }
+        let deletedContacts = Set(totalPhoneContacts).subtracting(Set(existingContacts))
+        deletedContacts.forEach { $0.phoneState = .deletedOrNotAvailable }
         
-        let changedContacts: [BaxtaPhoneNumber] = changedContactsPhoneValues.map { (phone) in
+        
+        let newContacts = Array(Set(systemPhoneNumbers).subtracting(Set(existingContactPhones)))
+        
+        let changedContacts: [BaxtaPhoneNumber] = newContacts.map { (phone) in
             let contact: BaxtaPhoneNumber = context.insertObject()
+            contact.phoneState = .inserted
             contact.insertOrUpdate(contact: dbContact, systemPhoneNumber: phone)
             return contact
         }
         
-        return Set(unchangedContacts + changedContacts)
+        return Set(existingContacts + changedContacts + deletedContacts)
     }
     
-    private static func getMaterializedPhoneOrInsert(dbContact: BaxtaContact, systemPhone: String) -> BaxtaPhoneNumber {
+    private static func getMaterializedPhoneOrInsert(dbContact: BaxtaContact, systemPhone: CNLabeledValue<CNPhoneNumber>) -> BaxtaPhoneNumber {
         let context = dbContact.managedObjectContext!
         let predicate = NSPredicate(format: "%K == %@", #keyPath(BaxtaPhoneNumber.fullPhoneNumber), systemPhone)
         let dbPhoneNumber: BaxtaPhoneNumber
@@ -93,18 +120,19 @@ final public class BaxtaPhoneNumber: NSManagedObject {
         var dbPhoneNumbers: [BaxtaPhoneNumber] = []
         let context = dbContact.managedObjectContext!
         for phone in systemPhoneNumbers {
-            let phoneValue = phone.value.stringValue
             let dbPhone: BaxtaPhoneNumber = context.insertObject()
-            dbPhone.insertOrUpdate(contact: dbContact, systemPhoneNumber: phoneValue)
+            dbPhone.phoneState = .inserted
+            dbPhone.insertOrUpdate(contact: dbContact, systemPhoneNumber: phone)
             dbPhoneNumbers.append(dbPhone)
         }
        
         return Set(dbPhoneNumbers)
     }
     
-    private func insertOrUpdate(contact: BaxtaContact, systemPhoneNumber: String) {
-        fullPhoneNumber = systemPhoneNumber
-        (countryCode, phoneNumber) = BaxtaPhoneNumber.separateCodeAndPhoneNumber(text: systemPhoneNumber)
+    private func insertOrUpdate(contact: BaxtaContact, systemPhoneNumber: CNLabeledValue<CNPhoneNumber>) {
+        phoneId = systemPhoneNumber.identifier
+        fullPhoneNumber = systemPhoneNumber.value.stringValue
+        (countryCode, phoneNumber) = BaxtaPhoneNumber.separateCodeAndPhoneNumber(text: systemPhoneNumber.value.stringValue)
         contactType = .phoneBook
         fullName = contact.fullName
     }

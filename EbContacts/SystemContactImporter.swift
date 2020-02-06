@@ -82,6 +82,7 @@ public class SystemContactImporter: NSObject {
         let operation: () -> Void = {
             if self.deleteRemovedContacts {
                 self.deleteDBContacts(excluding: contactIds, type: .phoneBook)
+                self.removeDeletedPhoneNumbers()
             } else {
                 self.setFlagsForDeletedDbContacts(excluding: contactIds)
             }
@@ -178,5 +179,10 @@ extension SystemContactImporter {
             predicate = NSPredicate(format: "%K == %d", #keyPath(BaxtaContact.phoneNumbers.type), type.rawValue)
         }
         dbManager.deleteObjects(type: BaxtaContact.self, predicate: predicate, context: context)
+    }
+    
+    private func removeDeletedPhoneNumbers() {
+        let predicate = NSPredicate(format: "%K == %@", #keyPath(BaxtaPhoneNumber.state), DBContactState.deletedOrNotAvailable.rawValue)
+        dbManager.deleteObjects(type: BaxtaPhoneNumber.self, predicate: predicate, context: context)
     }
 }

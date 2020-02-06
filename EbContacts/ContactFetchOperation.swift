@@ -30,9 +30,9 @@ class ContactFetchOperation: OperationQueueable {
     }
     
     private func updateSystemContactsToDB(systemContacts: [CNContact]) {
+        contactImporter.insertSystemContactsToDB(systemContacts: systemContacts)
         let systemContactIds = systemContacts.map { $0.identifier }
         contactImporter.deleteSystemContactsFromDb(excluding: systemContactIds)
-        contactImporter.insertSystemContactsToDB(systemContacts: systemContacts)
     }
     
     private func fetchSystemContactsAndInsertToDB(completion: @escaping (Error?) -> Void) {
