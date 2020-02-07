@@ -56,9 +56,9 @@ public class TableViewDataSource<Delegate: TableViewDataSourceDelegate>: NSObjec
         tableView.reloadData()
     }
 
-    var doForceReload = false
+    public var doForceReload = false
 
-    var selectedObject: Object? {
+    public var selectedObject: Object? {
         guard let indexPath = tableView.indexPathForSelectedRow else { return nil }
         return objectAtIndexPath(indexPath)
     }
@@ -73,7 +73,7 @@ public class TableViewDataSource<Delegate: TableViewDataSourceDelegate>: NSObjec
 
     public var numberOfObjects: Int { return fetchedResultsController.fetchedObjects?.count ?? 0 }
 
-    func reconfigureFetchRequest(_ configure: (NSFetchRequest<Object>) -> Void) {
+    public func reconfigureFetchRequest(_ configure: (NSFetchRequest<Object>) -> Void) {
         NSFetchedResultsController<NSFetchRequestResult>.deleteCache(withName: fetchedResultsController.cacheName)
         configure(fetchedResultsController.fetchRequest)
         do { try fetchedResultsController.performFetch() } catch { fatalError("fetch request failed") }
