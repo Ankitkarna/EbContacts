@@ -83,7 +83,7 @@ final public class BaxtaContact: NSManagedObject {
         
         if systemContact.isKeyAvailable(CNContactEmailAddressesKey) {
             if state == .inserted {
-                emails = BaxtaEmail.insertEmails(systemEmails: systemContact.emailAddresses, context: context)
+                emails = BaxtaEmail.insertEmails(dbContact: self, systemEmails: systemContact.emailAddresses)
             } else {
                 emails = BaxtaEmail.getDBEmails(dbContact: self, systemEmails: systemContact.emailAddresses)
             }

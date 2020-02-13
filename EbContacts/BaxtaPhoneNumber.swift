@@ -109,8 +109,10 @@ final public class BaxtaPhoneNumber: NSManagedObject {
         let dbPhoneNumber: BaxtaPhoneNumber
         if let phone: BaxtaPhoneNumber = findOrFetch(in: context, matching: predicate) {
             dbPhoneNumber = phone
+            dbPhoneNumber.phoneState = .updated
         } else {
             dbPhoneNumber = context.insertObject()
+            dbPhoneNumber.phoneState = .inserted
         }
         dbPhoneNumber.insertOrUpdate(contact: dbContact, systemPhoneNumber: systemPhone)
         return dbPhoneNumber
