@@ -65,7 +65,6 @@ final public class BaxtaContact: NSManagedObject {
     }
     
     private func updateOrInsert(systemContact: CNContact, state: DBContactState) {
-        let context = managedObjectContext!
         contactId = systemContact.identifier
         fullName = systemContact.fullName
         

@@ -137,6 +137,9 @@ final public class BaxtaPhoneNumber: NSManagedObject {
         (countryCode, phoneNumber) = BaxtaPhoneNumber.separateCodeAndPhoneNumber(text: systemPhoneNumber.value.stringValue)
         contactType = .phoneBook
         fullName = contact.fullName
+        
+        //remove appuser if linked to the phone
+        user = nil
     }
     
     static public func findContact(userId: String, context: NSManagedObjectContext) -> BaxtaPhoneNumber? {

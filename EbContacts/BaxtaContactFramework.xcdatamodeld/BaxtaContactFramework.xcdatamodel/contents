@@ -5,7 +5,7 @@
         <attribute name="profilePhoto" optional="YES" attributeType="String"/>
         <attribute name="userId" optional="YES" attributeType="String"/>
         <attribute name="userName" optional="YES" attributeType="String"/>
-        <relationship name="phoneContact" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BaxtaPhoneNumber" inverseName="user" inverseEntity="BaxtaPhoneNumber"/>
+        <relationship name="phoneContacts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BaxtaPhoneNumber" inverseName="user" inverseEntity="BaxtaPhoneNumber"/>
     </entity>
     <entity name="BaxtaContact" representedClassName=".BaxtaContact" syncable="YES">
         <attribute name="contactId" attributeType="String"/>
@@ -35,10 +35,10 @@
         <attribute name="state" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="type" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="contact" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BaxtaContact" inverseName="phoneNumbers" inverseEntity="BaxtaContact"/>
-        <relationship name="user" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="BaxtaAppUser" inverseName="phoneContact" inverseEntity="BaxtaAppUser"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BaxtaAppUser" inverseName="phoneContacts" inverseEntity="BaxtaAppUser"/>
         <uniquenessConstraints>
             <uniquenessConstraint>
-                <constraint value="phoneNumber"/>
+                <constraint value="phoneId"/>
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>

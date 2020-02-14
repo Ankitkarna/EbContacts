@@ -14,6 +14,8 @@ public final class BaxtaAppUser: NSManagedObject {
     @NSManaged public var userName: String?
     @NSManaged private var profilePhoto: String?
     
+    @NSManaged public var phoneContacts: Set<BaxtaPhoneNumber>
+    
     public var profileURL: URL? {
         get {
             guard let profilePhoto = profilePhoto else { return nil }
@@ -22,8 +24,13 @@ public final class BaxtaAppUser: NSManagedObject {
         set {
             profilePhoto = newValue?.absoluteString
         }
-        
     }
+    
+    static public func findAppUser(userId: String, context: NSManagedObjectContext) -> BaxtaAppUser? {
+        let predicate = NSPredicate(format: "%K == %@", #keyPath(BaxtaAppUser.userId), userId)
+        return BaxtaAppUser.findOrFetch(in: context, matching: predicate)
+    }
+
 }
 
 extension BaxtaAppUser: Managed {
