@@ -37,6 +37,7 @@ class BaxtaOperation: Operation {
     init(queueable: OperationQueueable) {
         self.queueable = queueable
         self.operationIdentifier = UUID().uuidString
+        
     }
     
     /// Trigger for when the states are changed

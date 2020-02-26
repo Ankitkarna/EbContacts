@@ -12,11 +12,18 @@ import Contacts
 open class ContactManager: NSObject {
     
     public let contactImporter: SystemContactImporter
-    private let queue = OperationQueue()
+    private let queue: OperationQueue = {
+        let queue = OperationQueue()
+        queue.maxConcurrentOperationCount = 1
+        return queue
+    }()
+    
     ///whether to allow framework to automatically delete removed system contacts or just set deleted flag on removed contacts
     public var deleteRemovedContacts = false
     
     public var onSystemContactChange: (() -> Void)?
+    
+    private lazy var fetchOperationQueable = ContactFetchOperation(contactImporter: contactImporter)
     
     public init(contactImporter: SystemContactImporter = SystemContactImporter()) {
         self.contactImporter = contactImporter
@@ -38,7 +45,6 @@ open class ContactManager: NSObject {
     }
     
     public func fetchSystemContactsAndInsertToDB(completion: @escaping (Error?) -> Void) {
-        let fetchOperationQueable = ContactFetchOperation(contactImporter: contactImporter)
         let fetchOperation = BaxtaOperation(queueable: fetchOperationQueable)
         
         let completionHandler = {
