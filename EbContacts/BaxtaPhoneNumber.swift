@@ -10,9 +10,9 @@ import CoreData
 import Contacts
 
 final public class BaxtaPhoneNumber: NSManagedObject {
-    @NSManaged public var countryCode: String
-    @NSManaged public var phoneNumber: String
-    @NSManaged public var fullPhoneNumber: String
+    @NSManaged public var countryCode: String?
+    @NSManaged public var phoneNumber: String?
+    @NSManaged public var fullPhoneNumber: String?
     @NSManaged public var email: String?
     
     @NSManaged public var contact: BaxtaContact?
@@ -55,7 +55,7 @@ final public class BaxtaPhoneNumber: NSManagedObject {
     static func isDbPhoneNumbersEqualToSystemPhoneNumbers(dbPhoneNumbers: Set<BaxtaPhoneNumber>, systemPhoneNumbers: [CNLabeledValue<CNPhoneNumber>]) -> Bool {
         guard dbPhoneNumbers.count == systemPhoneNumbers.count else { return false }
         let systemPhoneValues = systemPhoneNumbers.map { $0.value.stringValue }
-        let dbPhoneValues = dbPhoneNumbers.map { $0.fullPhoneNumber }
+        let dbPhoneValues = dbPhoneNumbers.compactMap { $0.fullPhoneNumber }
         return Set(systemPhoneValues) == Set(dbPhoneValues)
     }
     
