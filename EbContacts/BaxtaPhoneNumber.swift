@@ -165,7 +165,7 @@ extension BaxtaPhoneNumber {
 
 extension BaxtaPhoneNumber: Managed {
     public static var defaultSortDescriptors: [NSSortDescriptor] {
-        return [NSSortDescriptor(keyPath: \BaxtaPhoneNumber.fullName, ascending: true),
+        return [NSSortDescriptor(key: #keyPath(BaxtaPhoneNumber.fullName), ascending: true, selector: #selector(NSString.caseInsensitiveCompare)),
                 NSSortDescriptor(keyPath: \BaxtaPhoneNumber.fullPhoneNumber, ascending: true)]
     }
 }
