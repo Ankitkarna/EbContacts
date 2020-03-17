@@ -172,7 +172,7 @@ extension BaxtaPhoneNumber: Managed {
 
 extension BaxtaPhoneNumber {
     static func separateCodeAndPhoneNumber(text: String) -> (String, String) {
-        let regex = "\\+[0-9]{1,3}"
+        let regex = "(\\+|00)[0-9]{1,3}"
         let decimalCharacterSet = CharacterSet.decimalDigits.inverted
         do {
             let regex = try NSRegularExpression(pattern: regex)
@@ -184,7 +184,10 @@ extension BaxtaPhoneNumber {
                 let code = String(text[start..<end])
                 let phone = String(text[end...])
                 
-                let codeStringValue = code.components(separatedBy: decimalCharacterSet).joined()
+                var codeStringValue = code.components(separatedBy: decimalCharacterSet).joined()
+                if codeStringValue.hasPrefix("00") {
+                    codeStringValue.removeFirst(2)
+                }
                 let phoneValue = phone.components(separatedBy: decimalCharacterSet).joined()
                 return ("+" + codeStringValue, phoneValue) //"+" is added to make it consistent with api
             }
