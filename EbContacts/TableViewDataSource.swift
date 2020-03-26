@@ -168,7 +168,8 @@ public class TableViewDataSource<Delegate: TableViewDataSourceDelegate>: NSObjec
 
     private func processUpdates(_ updates: [Update<Object>]?) {
         guard !doForceReload else { tableView.reloadData() ; return }
-         processUpdatesForAboveiOS10(updates)
+        tableView.reloadData()
+         //processUpdatesForAboveiOS10(updates)
     }
 
     // MARK: NSFetchedResultsControllerDelegate
