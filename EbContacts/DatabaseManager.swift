@@ -72,4 +72,20 @@ final public class DatabaseManager {
         let changes = [NSDeletedObjectsKey: objectIDArray]
         NSManagedObjectContext.mergeChanges(fromRemoteContextSave: changes as [AnyHashable: Any], into: [managedContext])
     }
+    
+    public static func clearDatabase(isSyncronous: Bool = true) {
+        let dbManager = DatabaseManager(dataStack: CoreDataStack.shared)
+        let context = CoreDataStack.shared.savingContext
+        let operation = {
+            dbManager.deleteObjects(type: BaxtaContact.self, context: context)
+            dbManager.deleteObjects(type: BaxtaPhoneNumber.self, context: context)
+            dbManager.deleteObjects(type: BaxtaEmail.self, context: context)
+            dbManager.deleteObjects(type: BaxtaAppUser.self, context: context)
+        }
+        if isSyncronous {
+            context.performChangesAndWait(block: operation)
+        } else {
+            context.performChanges(block: operation)
+        }
+    }
 }
